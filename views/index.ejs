@@ -1,0 +1,12 @@
+<%- include('./partials/header', { title: 'Blog Listing' }) %>
+
+<h1 class="mb-4">Blog Listing</h1>
+<ul class="list-group">
+  <% blogs.forEach(blog => { %>
+    <li class="list-group-item">
+      <a href="/blog/<%= blog.id %>"><%= blog.title %></a>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include('./partials/footer') %>

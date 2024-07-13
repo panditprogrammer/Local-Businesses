@@ -1,0 +1,77 @@
+<%- include('./partials/header', { title: blog.title }) %>
+
+<h1><%= blog.title %></h1>
+<p><%= blog.content %></p>
+<p>Likes: <span id="likeCount"><%= blog.likeCount %></span></p>
+
+<button id="likeButton" class="btn btn-primary"><i class="fas fa-thumbs-up"></i> Like</button>
+
+<h2>Comments</h2>
+<ul class="list-group mb-3">
+  <% comments.forEach(comment => { %>
+    <li class="list-group-item"><%= comment.content %></li>
+  <% }) %>
+</ul>
+
+<h3>Add a Comment</h3>
+<form action="/blog/<%= blog.id %>/comment" method="POST">
+  <div class="mb-3">
+    <textarea name="content" class="form-control" required></textarea>
+  </div>
+  <button type="submit" class="btn btn-success"><i class="fas fa-comment"></i> Comment</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  const likeButton = $('#likeButton');
+  const likeCountElement = $('#likeCount');
+  const blogId = '<%= blog.id %>';
+  const localStorageKey = `liked_blog_${blogId}`;
+
+  // Check if user has already liked the blog
+  if (localStorage.getItem(localStorageKey)) {
+    likeButton.addClass('liked'); // Optionally, add a class to change button style
+    likeButton.attr('disabled', true); // Optionally, disable the like button
+  }
+
+  // Handle like button click
+  likeButton.click(function(event) {
+    event.preventDefault();
+
+    // Check if already liked to prevent duplicate likes
+    if (localStorage.getItem(localStorageKey)) {
+      alert('You have already liked this blog.');
+      return;
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: `/blog/${blogId}/like`,
+      contentType: 'application/json',
+      data: JSON.stringify({ blogId }),
+      success: function(data) {
+        if (data.success) {
+          // Update like count on the page
+          likeCountElement.text(data.likeCount);
+          
+          // Store in localStorage to avoid duplicate likes
+          localStorage.setItem(localStorageKey, true);
+
+          // Optionally update button text or style based on like/unlike
+          likeButton.addClass('liked'); // Optionally, add a class to change button style
+          likeButton.attr('disabled', true); // Optionally, disable the like button
+        } else {
+          alert('Failed to like the blog. Please try again.');
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error('Error:', error);
+        alert('Failed to like the blog. Please try again.');
+      }
+    });
+  });
+});
+</script>
+
+<%- include('./partials/footer') %>

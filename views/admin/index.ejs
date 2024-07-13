@@ -1,0 +1,21 @@
+<%- include('../partials/header', { title: 'Admin - Blog Listing' }) %>
+
+<h1 class="mb-4">Admin - Blog Listing</h1>
+<a href="/admin/blogs/new" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Create New Blog</a>
+<ul class="list-group">
+  <% blogs.forEach(blog => { %>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>
+        <%= blog.title %> (<%= blog.status %>)
+      </span>
+      <span>
+        <a href="/admin/blogs/<%= blog.id %>/edit" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
+        <form action="/admin/blogs/<%= blog.id %>?_method=DELETE" method="POST" class="d-inline">
+          <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>
+        </form>
+      </span>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include('../partials/footer') %>

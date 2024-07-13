@@ -1,0 +1,24 @@
+<%- include('../partials/header', { title: 'Edit Blog' }) %>
+
+<h1 class="mb-4">Edit Blog</h1>
+<form action="/admin/blogs/<%= blog.id %>?_method=PUT" method="POST">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title:</label>
+    <input type="text" name="title" class="form-control" id="title" value="<%= blog.title %>">
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">Content:</label>
+    <textarea name="content" class="form-control" id="content"><%= blog.content %></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="status" class="form-label">Status:</label>
+    <select name="status" class="form-select" id="status">
+      <option value="draft" <%= blog.status === 'draft' ? 'selected' : '' %>>Draft</option>
+      <option value="publish" <%= blog.status === 'publish' ? 'selected' : '' %>>Publish</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Update</button>
+  <a href="/admin/blogs" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Admin</a>
+</form>
+
+<%- include('../partials/footer') %>
