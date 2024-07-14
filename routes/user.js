@@ -18,6 +18,14 @@ router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
+    if (!email.trim()) {
+      return res.json({ success: false, message: 'Please enter email' });
+    }
+
+    if (!password.trim()) {
+      return res.json({ success: false, message: 'Please enter password' });
+    }
+
     // Check if user with the same email already exists
     db.get('SELECT * FROM users WHERE email = ?', [email], async (err, existingUser) => {
       if (err) {
@@ -30,7 +38,6 @@ router.post('/register', async (req, res) => {
 
       // If email is not already registered, proceed with registration
       const hashedPassword = await bcrypt.hash(password, 10);
-
       db.run('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hashedPassword], function (err) {
         if (err) {
           return res.json({ success: false, message: 'Error registering user' });
@@ -78,11 +85,9 @@ router.post('/login', (req, res) => {
 router.get('/settings', (req, res) => {
   const loggedIn = req.session.userId ? true : false;
   const id = req.session.userId;
-  console.log("userId",id)
 
   db.get('SELECT * FROM users WHERE id = ?', [id], (err, user) => {
     if (err) throw err;
-    console.log(user)
     res.render('user/settings', { user, loggedIn });
   });
 });
@@ -91,9 +96,9 @@ router.get('/settings', (req, res) => {
 
 // user setting
 router.post('/settings', (req, res) => {
-  
+
   const id = req.session.userId;
-const { username, email } = req.body;
+  const { username, email } = req.body;
 
   // Check if user exists
   db.get('SELECT * FROM users WHERE id = ?', [id], (err, user) => {

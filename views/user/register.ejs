@@ -42,6 +42,7 @@ $(document).ready(function() {
       type: 'POST',
       url: '/user/register',
       data: JSON.stringify({ username: username, email: email, password: password }),
+      contentType: 'application/json',
       success: function(data) {
         if (data.success) {
           window.location.href = '/user/login'; // Redirect to login page after successful registration
