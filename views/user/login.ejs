@@ -1,0 +1,56 @@
+<%- include('../partials/header', { title: 'Login' }) %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-lg-4 mx-auto bg-light p-4">
+      <h1 class="text-center h3 my-2">Login</h1>
+      <div id="errorMessage" class="text-danger text-center"></div>
+
+      <form id="loginForm" class="mt-4">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" name="email" id="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+        <button type="submit" class="w-100 btn my-2 btn-primary">Login</button>
+      </form>
+
+      <div class="my-2 text-center">
+        <a href="/user/register">Register Here</a>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#loginForm').on('submit', function (event) {
+      event.preventDefault();
+
+      const email = $('#email').val();
+      const password = $('#password').val();
+
+      $.ajax({
+        type: 'POST',
+        url: '/user/login',
+        data: JSON.stringify({ email: email, password: password }),
+        contentType: 'application/json',
+        success: function (data) {
+          if (data.success) {
+            window.location.href = '/'; // Redirect to home page or any other page
+          } else {
+            $('#errorMessage').text(data.message);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error:', error);
+          $('#errorMessage').text('Failed to login. Please try again.');
+        }
+      });
+    });
+  });
+</script>

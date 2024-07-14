@@ -1,21 +1,64 @@
 <%- include('../partials/header', { title: 'Admin - Blog Listing' }) %>
 
-<h1 class="mb-4">Admin - Blog Listing</h1>
-<a href="/admin/blogs/new" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Create New Blog</a>
-<ul class="list-group">
-  <% blogs.forEach(blog => { %>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <span>
-        <%= blog.title %> (<%= blog.status %>)
-      </span>
-      <span>
-        <a href="/admin/blogs/<%= blog.id %>/edit" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
-        <form action="/admin/blogs/<%= blog.id %>?_method=DELETE" method="POST" class="d-inline">
-          <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>
-        </form>
-      </span>
-    </li>
-  <% }) %>
-</ul>
+  <div class="d-flex justify-content-between p-2">
+    <h1 class="mb-4 h3">Admin - Blogs</h1>
+    <div>
+      <a href="/admin/blogs/new" class="btn btn-sm btn-success mb-3"><i class="fas fa-plus"></i> Create New Blog</a>
+    </div>
+  </div>
 
-<%- include('../partials/footer') %>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Likes</th>
+        <th scope="col">Comments</th>
+        <th scope="col">published on</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <% blogs.forEach(blog=> { %>
+
+        <tr>
+          <td>
+            <%= blog.id %>
+          </td>
+          <td>
+            <%= blog.title %>
+          </td>
+          <td>
+            <%= blog.likes_count %>
+          </td>
+          <td>
+            <%= blog.comments_count %>
+          </td>
+          <td>
+            <%= blog.updated_at %>
+          </td>
+          <td>
+            <%= blog.status %>
+          </td>
+          <td>
+            <button class="btn btn-sm share-button btn-light">
+              <i class="fa fa-share" aria-hidden="true"></i> Share
+            </button>
+            <a href="/admin/blogs/<%= blog.id %>/edit" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i>
+              Edit</a>
+            <form action="/admin/blogs/<%= blog.id %>?_method=DELETE" method="POST" class="d-inline">
+              <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+
+
+    </tbody>
+  </table>
+
+
+  <%- include('../partials/footer') %>

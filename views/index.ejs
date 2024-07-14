@@ -1,12 +1,40 @@
 <%- include('./partials/header', { title: 'Blog Listing' }) %>
 
-<h1 class="mb-4">Blog Listing</h1>
-<ul class="list-group">
-  <% blogs.forEach(blog => { %>
-    <li class="list-group-item">
-      <a href="/blog/<%= blog.id %>"><%= blog.title %></a>
-    </li>
-  <% }) %>
-</ul>
+  <h1 class="mb-4 h3">Blogs</h1>
 
-<%- include('./partials/footer') %>
+  <div class="mb-4">
+
+    <% blogs.forEach(blog=> { %>
+      <div class="p-4 pb-1 border-bottom">
+        <a class="py-2" href="/blog/<%= blog.id %>">
+          <h1 class="h5">
+            <%= blog.title %>
+          </h1>
+        </a>
+        <p class="small text-muted">
+          <small class="pe-4">
+            <i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes : <%= blog.likes_count %>
+          </small>
+          <small class="pe-4">
+            <i class="fa fa-comment" aria-hidden="true"></i> Comments : <%= blog.comments_count %>
+          </small>
+          <small class="pe-4">
+            <button class="btn btn-sm share-button text-primary">
+              <i class="fa fa-share" aria-hidden="true"></i> Share
+            </button>
+          </small>
+          <small class="pe-4">
+            <i class="fa fa-globe" aria-hidden="true"></i> published : <%= blog.updated_at %>
+          </small>
+          <small class="pe-4">
+            <i class="fa fa-pencil" aria-hidden="true"></i> Author : Admin
+          </small>
+        </p>
+      </div>
+      <% }) %>
+  </div>
+
+
+
+
+  <%- include('./partials/footer') %>
