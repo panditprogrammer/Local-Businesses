@@ -58,7 +58,7 @@ db.serialize(() => {
         password: 'admin', // You should hash this password before using it in production
         role: 'admin'
       };
-      
+
       const bcrypt = require('bcrypt');
       bcrypt.hash(defaultAdmin.password, 10, (err, hashedPassword) => {
         if (err) {

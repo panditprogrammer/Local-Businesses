@@ -9,7 +9,7 @@ router.get('/register', (req, res) => {
   if (req.session.userId) {
     res.redirect('/');
   }
-  res.render('user/register',{loggedIn});
+  res.render('user/register', { loggedIn });
 });
 
 
@@ -51,7 +51,7 @@ router.get('/login', (req, res) => {
   if (req.session.userId) {
     res.redirect('/');
   }
-  res.render('user/login',{loggedIn});
+  res.render('user/login', { loggedIn });
 });
 
 // Handle user login
@@ -72,6 +72,52 @@ router.post('/login', (req, res) => {
     res.json({ success: true });
   });
 });
+
+
+// user setting
+router.get('/settings', (req, res) => {
+  const loggedIn = req.session.userId ? true : false;
+  const id = req.session.userId;
+  console.log("userId",id)
+
+  db.get('SELECT * FROM users WHERE id = ?', [id], (err, user) => {
+    if (err) throw err;
+    console.log(user)
+    res.render('user/settings', { user, loggedIn });
+  });
+});
+
+
+
+// user setting
+router.post('/settings', (req, res) => {
+  
+  const id = req.session.userId;
+const { username, email } = req.body;
+
+  // Check if user exists
+  db.get('SELECT * FROM users WHERE id = ?', [id], (err, user) => {
+    if (err) {
+      return res.status(500).send('Error fetching user');
+    }
+
+    if (!user) {
+      res.status(500).send('Error creating user');
+    } else {
+      // If user exists, update user settings
+      db.run('UPDATE users SET username = ?, email = ? WHERE id = ?', [username, email, id], (err) => {
+        if (err) {
+          res.status(500).send('Error updating user settings');
+        } else {
+          res.redirect('/user/settings');
+        }
+      });
+    }
+  });
+});
+
+
+
 
 // Handle user logout
 router.get('/logout', (req, res) => {

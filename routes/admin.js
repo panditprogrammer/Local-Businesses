@@ -10,14 +10,14 @@ router.get('/blogs', (req, res) => {
     const loggedIn = req.session.userId ? true : false;
     db.all('SELECT * FROM blogs', (err, blogs) => {
         if (err) throw err;
-        res.render('admin/index', { blogs ,loggedIn});
+        res.render('admin/index', { blogs, loggedIn });
     });
 });
 
 // Admin - New blog form
 router.get('/blogs/new', (req, res) => {
     const loggedIn = req.session.userId ? true : false;
-    res.render('admin/new',{loggedIn});
+    res.render('admin/new', { loggedIn });
 });
 
 // Admin - Create new blog
@@ -35,7 +35,7 @@ router.get('/blogs/:id/edit', (req, res) => {
     const id = req.params.id;
     db.get('SELECT * FROM blogs WHERE id = ?', id, (err, blog) => {
         if (err) throw err;
-        res.render('admin/edit', { blog,loggedIn });
+        res.render('admin/edit', { blog, loggedIn });
     });
 });
 
@@ -59,13 +59,12 @@ router.delete('/blogs/:id', (req, res) => {
 
 
 
-
 // Admin setting
 router.get('/settings', (req, res) => {
     const loggedIn = req.session.userId ? true : false;
     db.get('SELECT * FROM users WHERE role = "admin"', (err, admin) => {
         if (err) throw err;
-        res.render('admin/settings', { admin,loggedIn });
+        res.render('admin/settings', { admin, loggedIn });
     });
 });
 
