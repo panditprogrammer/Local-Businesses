@@ -15,7 +15,8 @@
         <th scope="col">Title</th>
         <th scope="col">Likes</th>
         <th scope="col">Comments</th>
-        <th scope="col">published on</th>
+        <th scope="col">created_at</th>
+        <th scope="col">updated_at (published)</th>
         <th scope="col">Status</th>
         <th scope="col">Actions</th>
       </tr>
@@ -38,13 +39,16 @@
             <%= blog.comments_count %>
           </td>
           <td>
+            <%= blog.created_at %>
+          </td>
+          <td>
             <%= blog.updated_at %>
           </td>
           <td>
             <%= blog.status %>
           </td>
           <td>
-            <button class="btn btn-sm share-button btn-light">
+            <button class="btn btn-sm share-button btn-light" data-blogid="<%= blog.id %>">
               <i class="fa fa-share" aria-hidden="true"></i> Share
             </button>
             <a href="/admin/blogs/<%= blog.id %>/edit" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i>

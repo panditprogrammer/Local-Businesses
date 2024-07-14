@@ -1,6 +1,13 @@
-$(document).ready(function() {
-    $('.share-button').on('click', async function() {
-        const url = window.location.href;
+$(document).ready(function () {
+    $('.share-button').on('click', async function () {
+        let blogId = $(this).data("blogid");
+        let url = "";
+        if (blogId) {
+            url = "/blog/" + blogId;
+        } else {
+            url = window.location.href;
+        }
+
 
         try {
             if (navigator.share) {
