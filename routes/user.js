@@ -18,6 +18,10 @@ router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
+    if (!username.trim()) {
+      return res.json({ success: false, message: 'Please enter username' });
+    }
+
     if (!email.trim()) {
       return res.json({ success: false, message: 'Please enter email' });
     }
@@ -99,6 +103,14 @@ router.post('/settings', (req, res) => {
 
   const id = req.session.userId;
   const { username, email } = req.body;
+
+  if (username.trim() == "") {
+    res.send('please fill the username field!');
+  }
+
+  if (email.trim() == "") {
+    res.send('please fill the email field!');
+  }
 
   // Check if user exists
   db.get('SELECT * FROM users WHERE id = ?', [id], (err, user) => {

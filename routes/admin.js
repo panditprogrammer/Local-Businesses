@@ -23,6 +23,15 @@ router.get('/blogs/new', (req, res) => {
 // Admin - Create new blog
 router.post('/blogs/new', (req, res) => {
     const { title, content, status } = req.body;
+
+    if (title.trim() == "") {
+        res.send('please fill the title field!');
+    }
+
+    if (content.trim() == "") {
+        res.send('please fill the content field!');
+    }
+
     db.run('INSERT INTO blogs (title, content, status) VALUES (?, ?, ?)', [title, content, status], (err) => {
         if (err) throw err;
         res.redirect('/admin/blogs');
@@ -42,6 +51,16 @@ router.get('/blogs/:id/edit', (req, res) => {
 // Admin - Update blog
 router.put('/blogs/:id', (req, res) => {
     const { title, content, status } = req.body;
+
+    if (title.trim() == "") {
+        res.send('please fill the title field!');
+    }
+
+    if (content.trim() == "") {
+        res.send('please fill the content field!');
+    }
+
+
     db.run('UPDATE blogs SET title = ?, content = ?, status = ? WHERE id = ?', [title, content, status, req.params.id], (err) => {
         if (err) throw err;
         res.redirect('/admin/blogs');
@@ -71,6 +90,15 @@ router.get('/settings', (req, res) => {
 // Admin setting
 router.post('/settings', (req, res) => {
     const { username, email } = req.body;
+
+    if (username.trim() == "") {
+        res.send('please fill the username field!');
+    }
+
+    if (email.trim() == "") {
+        res.send('please fill the email field!');
+    }
+
 
     // Check if admin exists
     db.get('SELECT * FROM users WHERE role = "admin"', (err, admin) => {

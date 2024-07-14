@@ -160,6 +160,10 @@ router.post('/blog/:id/comment', (req, res) => {
     const { content } = req.body;
     const userId = req.session.userId;
 
+    if(content.trim() == ""){
+        res.send('please fill the required field!');
+    }
+
     db.serialize(() => {
         // Insert the comment
         db.run('INSERT INTO comments (blog_id, user_id, content) VALUES (?, ?, ?)', [blogId, userId, content], (err) => {

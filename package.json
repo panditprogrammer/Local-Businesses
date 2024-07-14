@@ -4,6 +4,7 @@
   "description": "This is blog website where an admin can Create, Edit, Delete and Published and Draft blog. And Reader can view and like and comment on blog. ",
   "main": "index.js",
   "scripts": {
+    "start" : "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "panditprogrammer",

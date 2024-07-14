@@ -12,15 +12,15 @@
   <form action="/admin/blogs/<%= blog.id %>?_method=PUT" method="POST">
     <div class="mb-3">
       <label for="title" class="form-label">Title:</label>
-      <input type="text" name="title" class="form-control" id="title" value="<%= blog.title %>">
+      <input type="text" name="title" class="form-control" id="title" value="<%= blog.title %>" required>
     </div>
     <div class="mb-3">
       <label for="content" class="form-label">Content:</label>
-      <textarea name="content" class="form-control" id="content"><%= blog.content %></textarea>
+      <textarea name="content" class="form-control" id="content" required><%= blog.content %></textarea>
     </div>
     <div class="mb-3">
       <label for="status" class="form-label">Status:</label>
-      <select name="status" class="form-select" id="status">
+      <select name="status" class="form-select" id="status" required>
         <option value="draft" <%=blog.status==='draft' ? 'selected' : '' %>>Draft</option>
         <option value="publish" <%=blog.status==='publish' ? 'selected' : '' %>>Publish</option>
       </select>

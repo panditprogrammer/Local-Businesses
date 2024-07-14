@@ -11,15 +11,15 @@
   <form action="/admin/blogs/new" method="POST">
     <div class="mb-3">
       <label for="title" class="form-label">Title:</label>
-      <input type="text" name="title" class="form-control" id="title">
+      <input type="text" name="title" class="form-control" id="title" required>
     </div>
     <div class="mb-3">
       <label for="content" class="form-label">Content:</label>
-      <textarea name="content" class="form-control" id="content"></textarea>
+      <textarea name="content" class="form-control" id="content" required></textarea>
     </div>
     <div class="mb-3">
       <label for="status" class="form-label">Status:</label>
-      <select name="status" class="form-select" id="status">
+      <select name="status" class="form-select" id="status" required>
         <option value="draft">Draft</option>
         <option value="publish">Publish</option>
       </select>
