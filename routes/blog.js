@@ -7,7 +7,15 @@ router.get('/', (req, res) => {
     const loggedIn = req.session.userId ? true : false;
     db.all('SELECT * FROM blogs WHERE status = "publish"', (err, blogs) => {
         if (err) throw err;
-        res.render('index', { blogs ,loggedIn});
+
+        // get admin user
+        db.get('SELECT * FROM users WHERE role = "admin"', (err, admin) => {
+            if (err) {
+                return res.send('Error fetching admin');
+            }
+            res.render('index', { blogs, loggedIn, admin });
+        })
+
     });
 });
 
@@ -31,7 +39,7 @@ router.get('/blog/:id', (req, res) => {
             return;
         }
 
-    
+
 
         // Query comments for the blog with user information
         db.all('SELECT comments.*, users.username AS commenter_name, users.email AS commenter_email ' +
@@ -45,9 +53,16 @@ router.get('/blog/:id', (req, res) => {
                     res.send('Error retrieving comments');
                     return;
                 }
-                console.log(comments);
-                // Render the blog details page with blog, comments, and likeCount
-                res.render('blog', { blog, comments,loggedIn });
+
+                // get admin user
+                db.get('SELECT * FROM users WHERE role = "admin"', (err, admin) => {
+                    if (err) {
+                        return res.send('Error fetching admin');
+                    }
+
+                    // Render the blog details page with blog, comments, and likeCount
+                    res.render('blog', { blog, comments, loggedIn, admin });
+                })
             });
     });
 });
@@ -76,7 +91,7 @@ router.post('/blog/:id/like', (req, res) => {
                         if (err) {
                             res.json({ success: false, message: 'Error retrieving like count' });
                         } else {
-                            res.json({ success: true, likeCount: row.likes_count,loggedIn });
+                            res.json({ success: true, likeCount: row.likes_count, loggedIn });
                         }
                     });
                 }
@@ -118,7 +133,7 @@ router.post('/blog/:id/unlike', (req, res) => {
 
 // Check if a user has liked a blog post
 router.get('/blog/:id/hasLiked', (req, res) => {
-    
+
     if (!req.session.userId) {
         return res.json({ hasLiked: false });
     }
