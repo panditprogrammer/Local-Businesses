@@ -40,6 +40,11 @@
       <form action="/blog/<%= blog.id %>/comment" method="POST">
         <div class="mb-3">
           <textarea name="content" class="form-control" required></textarea>
+          <% if (errorMessage) { %>
+            <div class="text-danger small py-2">
+              <%= errorMessage %>
+            </div>
+            <% } %>
         </div>
         <button type="submit" class="btn btn-sm btn-secondary">
           <i class="fa-regular fa-paper-plane px-1"></i> Send

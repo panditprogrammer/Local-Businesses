@@ -1,6 +1,13 @@
 <%- include('../partials/header', { title: 'Admin Settings' }) %>
 
-    <h1>Admin Settings</h1>
+    <h1 class="py-2 h3">Admin Settings</h1>
+    <div class="text-center">
+        <% if (errorMessage) { %>
+            <div class="text-danger small py-2">
+                <%= errorMessage %>
+            </div>
+            <% } %>
+    </div>
 
     <form action="/admin/settings" method="POST">
         <div class="mb-3">

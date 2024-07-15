@@ -5,6 +5,13 @@ const db = require('../database/database');
 
 router.get('/', (req, res) => {
     const loggedIn = req.session.userId ? true : false;
+    res.render('home', { loggedIn });
+})
+
+
+
+router.get('/blogs', (req, res) => {
+    const loggedIn = req.session.userId ? true : false;
     db.all('SELECT * FROM blogs WHERE status = "publish"', (err, blogs) => {
         if (err) throw err;
 
@@ -160,8 +167,9 @@ router.post('/blog/:id/comment', (req, res) => {
     const { content } = req.body;
     const userId = req.session.userId;
 
-    if(content.trim() == ""){
-        res.send('please fill the required field!');
+    if (content.trim() === "") {
+        req.flash('errorMessage', 'Please fill the this field!');
+        return res.redirect(`/blog/${blogId}`);
     }
 
     db.serialize(() => {
@@ -169,15 +177,16 @@ router.post('/blog/:id/comment', (req, res) => {
         db.run('INSERT INTO comments (blog_id, user_id, content) VALUES (?, ?, ?)', [blogId, userId, content], (err) => {
             if (err) {
                 console.error('Error adding comment:', err);
-                res.send('Error adding comment');
-                return;
+                req.flash('errorMessage', 'Failed to comment!');
+                return res.redirect(`/blog/${blogId}`);
             }
 
             // Increment comments_count in the blogs table
             db.run('UPDATE blogs SET comments_count = comments_count + 1 WHERE id = ?', [blogId], (err) => {
                 if (err) {
                     console.error('Error updating comments_count:', err);
-                    res.send('Error updating comments_count');
+                    req.flash('errorMessage', 'Error while updating comment count!');
+                    return res.redirect(`/blog/${blogId}`);
                 } else {
                     res.redirect(`/blog/${blogId}`);
                 }
@@ -185,6 +194,7 @@ router.post('/blog/:id/comment', (req, res) => {
         });
     });
 });
+
 
 
 module.exports = router;

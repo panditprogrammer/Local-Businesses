@@ -104,12 +104,16 @@ router.post('/settings', (req, res) => {
   const id = req.session.userId;
   const { username, email } = req.body;
 
+
+
   if (username.trim() == "") {
-    res.send('please fill the username field!');
+    req.flash('errorMessage', 'please fill the username field!');
+    return res.redirect('/user/settins');
   }
 
   if (email.trim() == "") {
-    res.send('please fill the email field!');
+    req.flash('errorMessage', 'please fill the email field!');
+    return res.redirect('/user/settins');
   }
 
   // Check if user exists

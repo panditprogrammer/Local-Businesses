@@ -4,6 +4,9 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const dbAdmin = require('./database/database'); // Ensure this is required to initialize the admin details only
 const app = express();
+const flash = require('connect-flash');
+
+
 const port = 3000;
 
 // for db --------------------
@@ -49,6 +52,12 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.errorMessage = req.flash('errorMessage');
+  next();
+});
 
 // Import routes
 const blogRouter = require('./routes/blog');
