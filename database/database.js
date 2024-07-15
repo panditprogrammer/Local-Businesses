@@ -1,5 +1,26 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database/database.sqlite');
+const db = new sqlite3.Database(':memory:');
+
+
+// / for db --------------------
+const fs = require('fs');
+// Read and execute the schema file
+const schemaPath = './db-schema.sql';
+const schema = fs.readFileSync(schemaPath, 'utf8');
+
+// Execute SQL commands in the schema file
+db.serialize(() => {
+  db.exec(schema, err => {
+    if (err) {
+      console.error('Error executing schema:', err);
+    } else {
+      console.log('Database schema initialized successfully');
+      // Start your Express server or perform other actions here
+    }
+  });
+});
+
+
 
 db.serialize(() => {
 
