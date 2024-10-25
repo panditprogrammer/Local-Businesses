@@ -20,7 +20,14 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'avatar',
         'password',
+        'role',
+        'status',
+        'email_verified_at',
+        'phone_verified_at',
+        'currentLocation',
     ];
 
     /**
@@ -43,6 +50,15 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => 'boolean',
+            'phone_verified_at' => 'datetime',
+            'currentLocation' => 'array',
         ];
     }
+
+    protected $attributes = [
+        'role' => 'customer' // default
+    ];
+
+    public static $roles = ['customer', 'business', 'admin'];
 }
