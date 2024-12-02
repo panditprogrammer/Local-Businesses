@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,9 +18,9 @@ return new class extends Migration
             $table->bigInteger('parent_id')->nullable(); // id from this categories 
             $table->string('name', 20);
             $table->string('description')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('banner')->nullable();
-            $table->string('status');
+            $table->enum('status',Category::$statuses)->default("active");
             $table->timestamps();
         });
     }

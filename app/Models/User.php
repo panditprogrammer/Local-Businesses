@@ -22,12 +22,13 @@ class User extends Authenticatable
         'email',
         'phone',
         'avatar',
+        'dob',
+        'gender',
         'password',
         'role',
         'status',
         'email_verified_at',
         'phone_verified_at',
-        'currentLocation',
     ];
 
     /**
@@ -52,7 +53,6 @@ class User extends Authenticatable
             'password' => 'hashed',
             'status' => 'boolean',
             'phone_verified_at' => 'datetime',
-            'currentLocation' => 'array',
         ];
     }
 
@@ -60,5 +60,7 @@ class User extends Authenticatable
         'role' => 'customer' // default
     ];
 
-    public static $roles = ['customer', 'business', 'admin'];
+    public static $roles = ['customer', 'business'];
+
+    public static $genders = ['male','female','other'];
 }

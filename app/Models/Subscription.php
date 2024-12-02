@@ -9,7 +9,7 @@ class Subscription extends Model
 {
 
     protected $fillable = [
-        'user_id',
+        'business_id',
         'pricing_id',
         'type',
         'startDate',
@@ -31,9 +31,9 @@ class Subscription extends Model
     public static $types = ['monthly', 'yearly']; // Define allowed subscription types
 
 
-    public function user()
+    public function business()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Business::class, 'business_id');
     }
 
     public function pricing()

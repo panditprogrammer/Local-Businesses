@@ -18,7 +18,7 @@ class Category extends Model
 
 
     protected $attributes = [
-        'status' => 'pending', // Default status
+        'status' => 'active', // Default status
     ];
 
     public static $statuses = ['active', 'pending', 'rejected']; // Define allowed statuses
@@ -27,5 +27,16 @@ class Category extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Define the parent-child relationship
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function subcategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 }
