@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->json('location')->nullable();
+            $table->decimal("latitude");
             $table->json('address');
             $table->string('banner')->nullable();
             $table->string('website')->nullable();
